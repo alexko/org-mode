@@ -83,7 +83,7 @@ called by `org-babel-execute-src-block'."
 (defun org-babel-execute:cu (body params)
   "Execute a block of C code with org-babel.  This function is
 called by `org-babel-execute-src-block'."
-  (let ((org-babel-c-variant 'cu)) (org-babel-c-execute body params)))
+  (let ((org-babel-c-variant 'cu)) (org-babel-C-execute body params)))
 
 (defun org-babel-expand-body:c (body params)
   "Expand a block of C code with org-babel according to it's
