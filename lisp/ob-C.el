@@ -51,6 +51,10 @@
   "Command used to compile a C++ source code file into an
   executable.")
 
+(defvar org-babel-cu-compiler "nvcc"
+  "Command used to compile a cuda c++ source code file into an
+  executable.")
+
 (defvar org-babel-c-variant nil
   "Internal variable used to hold which type of C (e.g. C or C++)
 is currently being evaluated.")
@@ -75,6 +79,11 @@ header arguments (calls `org-babel-C-expand')."
 called by `org-babel-execute-src-block'."
   (let ((org-babel-c-variant 'c)) (org-babel-C-execute body params)))
 
+(defun org-babel-execute:cu (body params)
+  "Execute a block of C code with org-babel.  This function is
+called by `org-babel-execute-src-block'."
+  (let ((org-babel-c-variant 'cu)) (org-babel-C-execute body params)))
+
 (defun org-babel-expand-body:c (body params)
   "Expand a block of C code with org-babel according to it's
 header arguments (calls `org-babel-C-expand')."
@@ -87,7 +96,8 @@ or `org-babel-execute:C++'."
 			"C-src-"
 			(cond
 			 ((equal org-babel-c-variant 'c) ".c")
-			 ((equal org-babel-c-variant 'cpp) ".cpp"))))
+			 ((equal org-babel-c-variant 'cpp) ".cpp")
+			 ((equal org-babel-c-variant 'cu) ".cu"))))
          (tmp-bin-file (org-babel-temp-file
 			"C-bin-"
 			(if (equal system-type 'windows-nt) ".exe" "")))
@@ -101,7 +111,8 @@ or `org-babel-execute:C++'."
 	     (format "%s -o %s %s %s"
 		     (cond
 		      ((equal org-babel-c-variant 'c) org-babel-C-compiler)
-		      ((equal org-babel-c-variant 'cpp) org-babel-C++-compiler))
+		      ((equal org-babel-c-variant 'cpp) org-babel-C++-compiler)
+		      ((equal org-babel-c-variant 'cu) org-babel-cu-compiler))
 		     (org-babel-process-file-name tmp-bin-file)
 		     (mapconcat 'identity
 				(if (listp flags) flags (list flags)) " ")
