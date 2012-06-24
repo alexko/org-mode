@@ -470,7 +470,9 @@ bypassed."
 			     (org-current-time)))
 	(org-capture-set-target-location)
 	(condition-case error
-	    (org-capture-put :template (org-capture-fill-template))
+	    (org-capture-put :template
+			     (save-excursion
+			       (org-capture-fill-template)))
 	  ((error quit)
 	   (if (get-buffer "*Capture*") (kill-buffer "*Capture*"))
 	   (error "Capture abort: %s" error)))
