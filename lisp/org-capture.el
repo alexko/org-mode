@@ -1590,6 +1590,7 @@ The template may still contain \"%?\" for cursor positioning."
       (goto-char (point-min))
       (org-capture-steal-local-variables buffer)
       (setq buffer-file-name nil)
+      (setq mark-active nil)
 
       ;; %[] Insert contents of a file.
       (goto-char (point-min))
